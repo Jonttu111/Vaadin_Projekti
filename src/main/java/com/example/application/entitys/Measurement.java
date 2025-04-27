@@ -4,20 +4,23 @@ import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 @Entity
 @Table(name = "measurements")
 public class Measurement {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public int ID;
+    private int ID;
 
-    @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
-    public LocalDateTime Timestamp;
+    private LocalDateTime Timestamp;
 
-    public int SystolicPressure;
-    public int DiastolicPressure;
-    public int HeartRate;
+    private int SystolicPressure;
+    private int DiastolicPressure;
+    private int HeartRate;
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     public int getID() {
         return ID;
@@ -32,7 +35,7 @@ public class Measurement {
     }
 
     public void setTimestamp(LocalDateTime timestamp) {
-        Timestamp = timestamp;
+        this.Timestamp = timestamp;
     }
 
     public int getSystolicPressure() {
@@ -59,4 +62,11 @@ public class Measurement {
         HeartRate = heartRate;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 }
