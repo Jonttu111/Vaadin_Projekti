@@ -5,6 +5,8 @@ import com.example.application.security.AuthenticatedUser;
 import com.example.application.service.MeasurementService;
 import com.example.application.views.MainLayout;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.charts.themes.LumoDarkTheme;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
@@ -14,6 +16,7 @@ import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.Menu;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.theme.lumo.LumoUtility;
 import jakarta.annotation.security.RolesAllowed;
 import org.vaadin.lineawesome.LineAwesomeIconUrl;
 
@@ -41,6 +44,7 @@ public class MeasurementView extends Div {
         IntegerField ifDiastolicPressure = new IntegerField("Diastolic Pressure");
         IntegerField ifHeartRate = new IntegerField("Heart Rate");
         Button btnSave = new Button("Save");
+        btnSave.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
         ifSystolicPressure.setMin(1);
         ifSystolicPressure.setMax(300);
@@ -87,7 +91,7 @@ public class MeasurementView extends Div {
         Optional<User> username = authenticatedUser.get();
         if(binder.writeBeanIfValid(measurement)){
             this.measurementService.saveMeasurement(measurement, username.get().getUsername());
-            Notification.show("Measurement saved");
+            Notification.show("Measurement saved", 3000, Notification.Position.BOTTOM_CENTER);
             binder.readBean(null);
         }
         else{

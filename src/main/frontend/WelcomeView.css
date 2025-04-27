@@ -1,0 +1,6 @@
+.custom{
+    background-color: black;
+}
+.custom::part(label){
+    color: white
+}

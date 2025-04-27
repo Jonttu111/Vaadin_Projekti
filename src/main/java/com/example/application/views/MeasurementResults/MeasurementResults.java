@@ -19,6 +19,7 @@ import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.Menu;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.theme.lumo.LumoUtility;
 import jakarta.annotation.security.RolesAllowed;
 import org.vaadin.lineawesome.LineAwesomeIconUrl;
 
@@ -59,6 +60,9 @@ public class MeasurementResults extends Div {
                     Button btn_Edit = new Button("Edit");
                     Button btn_Delete = new Button("Delete");
 
+                    btn_Edit.addClassNames(LumoUtility.Background.CONTRAST, LumoUtility.FontSize.LARGE);
+
+                    btn_Delete.addClassNames(LumoUtility.Background.WARNING, LumoUtility.FontSize.LARGE);
                     btn_Edit.addClickListener(event -> {
                         // Placeholder action: We will implement functionality later
                         System.out.println("Edit button clicked for Measurement ID: " + measurement.getID());
@@ -69,7 +73,6 @@ public class MeasurementResults extends Div {
                     btn_Delete.addClickListener(event -> {
                         System.out.println("Delete button clicked for Measurement ID: " + measurement.getID());
                         boolean deleteTrue = measurementService.deleteMeasurement(measurement.getID());
-
                         if(deleteTrue){
                             dataProvider.getItems().remove(measurement);
                             dataProvider.refreshAll();

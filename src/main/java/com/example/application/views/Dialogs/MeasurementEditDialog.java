@@ -6,6 +6,7 @@ import com.example.application.service.MeasurementService;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.IntegerField;
 import com.vaadin.flow.data.binder.Binder;
@@ -68,7 +69,9 @@ public class MeasurementEditDialog extends Dialog {
 
         Button btn_Cancel = new Button("Cancel", event -> close());
 
-        VerticalLayout layout = new VerticalLayout(systolicField, diastolicField, heartRateField, btn_Save);
+        HorizontalLayout buttons = new HorizontalLayout(btn_Cancel, btn_Save);
+
+        VerticalLayout layout = new VerticalLayout(systolicField, diastolicField, heartRateField, buttons);
 
         add(layout);
 
