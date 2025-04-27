@@ -22,8 +22,8 @@ import java.util.Optional;
 
 @PageTitle("Measurement")
 @Route(value = "measurement", layout = MainLayout.class)
-@Menu(order = 1, icon = LineAwesomeIconUrl.HOME_SOLID)
-@RolesAllowed( "USER")
+@Menu(order = 1, icon = LineAwesomeIconUrl.WPFORMS)
+@RolesAllowed("USER")
 public class MeasurementView extends VerticalLayout {
     private final MeasurementService measurementService;
     private final AuthenticatedUser authenticatedUser;

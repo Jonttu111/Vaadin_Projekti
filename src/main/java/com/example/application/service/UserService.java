@@ -24,6 +24,11 @@ public class UserService {
 
         registerUser("1", "1");
         registerUser("2", "2");
+        registerUser("admin", "123");
+
+        var x = getAllUsers();
+
+        System.out.println(x);
     }
 
 
@@ -32,6 +37,7 @@ public class UserService {
     }
 
     public void registerUser(String username, String password) {
+
         if (userRepository.existsByUsername(username)) {
             throw new IllegalStateException("User already exists");
         }
@@ -39,7 +45,14 @@ public class UserService {
         User newUser = new User();
         newUser.setUsername(username);
         newUser.setPasswordHash(passwordEncoder.encode(password));
-        newUser.setRoles(Set.of(Role.USER));
+
+        //TODO: REMOVE when db is ready. This is more then bad idea :D
+        if(username.equals("admin")){
+            newUser.setRoles(Set.of(Role.ADMIN, Role.USER));
+        }
+        else{
+            newUser.setRoles(Set.of(Role.USER));
+        }
         userRepository.save(newUser);
     }
 

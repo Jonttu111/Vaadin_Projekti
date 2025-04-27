@@ -70,7 +70,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" + "ID=" + ID + ", username=" + username + ", passwordHash=" + passwordHash + ", roles=" + roles + '}';
+        return "Generated user -> " + "Username: " + username + " Password: " + passwordHash + " Roles: " + roles + "\n";
     }
 
 }

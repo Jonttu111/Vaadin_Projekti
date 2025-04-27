@@ -6,22 +6,29 @@ import com.example.application.security.AuthenticatedUser;
 import com.example.application.service.MeasurementService;
 import com.example.application.views.MainLayout;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.provider.ListDataProvider;
+import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.Menu;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import jakarta.annotation.security.RolesAllowed;
+import org.vaadin.lineawesome.LineAwesomeIconUrl;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 @PageTitle("Results")
 @Route(value = "results", layout = MainLayout.class)
-@Menu(order = 2, icon = "la la-chart-pie")
+@Menu(order = 2, icon = LineAwesomeIconUrl.DATABASE_SOLID)
 @RolesAllowed( "USER")
 public class MeasurementResults extends Div {
     private final MeasurementService measurementService;
@@ -33,11 +40,19 @@ public class MeasurementResults extends Div {
 
         Optional<User> username = authenticatedUser.get();
 
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
+
+        List<Measurement> measurements = measurementService.getMeasurementsByUsername(username.get().getUsername());
+        ListDataProvider<Measurement> dataProvider = new ListDataProvider<>(measurements);
+
         Grid<Measurement> grid = new Grid<>(Measurement.class, false);
+        grid.setDataProvider(dataProvider);
         grid.addColumn(Measurement::getSystolicPressure).setHeader("Systolic Pressure");
         grid.addColumn(Measurement::getDiastolicPressure).setHeader("Diastolic Pressure");
         grid.addColumn(Measurement::getHeartRate).setHeader("Heart Rate");
-        grid.addColumn(Measurement::getTimestamp).setHeader("Timestamp");
+        grid.addColumn(measurement -> measurement.getTimestamp().format(formatter))
+                .setHeader("Timestamp").setAutoWidth(true).setComparator(Measurement::getTimestamp);
+
 
         grid.addComponentColumn(measurement -> {
                     Button btn_Edit = new Button("Edit");
@@ -53,9 +68,25 @@ public class MeasurementResults extends Div {
                     });
                        return new HorizontalLayout(btn_Edit, btn_Delete);
                 });
-        List<Measurement> measurements = measurementService.getMeasurementsByUsername(username.get().getUsername());
-        grid.setItems(measurements);
         add(grid);
 
+        TextField filterField = new TextField("Search by date");
+        filterField.setPlaceholder("dd.mm.yyyy hh:mm:ss");
+        filterField.setClearButtonVisible(true);
+        filterField.setValueChangeMode(ValueChangeMode.EAGER);
+        filterField.addValueChangeListener(e -> {
+            String filterText = e.getValue();
+            if (filterText == null || filterText.isEmpty()) {
+                dataProvider.clearFilters();
+            } else {
+                dataProvider.setFilter(measurement -> {
+                    String formattedDate = measurement.getTimestamp().format(formatter);
+                    return formattedDate.contains(filterText);
+                });
+            }
+        });
+
+        add(filterField);
     }
+
 }

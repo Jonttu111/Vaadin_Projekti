@@ -11,6 +11,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import static java.lang.Thread.sleep;
+
 @Service
 public class MeasurementService {
 
@@ -24,14 +26,16 @@ public class MeasurementService {
         Measurement measurement = new Measurement();
         measurement.setDiastolicPressure(33);
         measurement.setSystolicPressure(123);
-        measurement.setTimestamp(LocalDateTime.now());
+        measurement.setHeartRate(60);
 
         Measurement measurement2 = new Measurement();
         measurement2.setDiastolicPressure(53);
         measurement2.setSystolicPressure(100);
-        measurement2.setTimestamp(LocalDateTime.now());
+        measurement2.setHeartRate(70);
+
         saveMeasurement(measurement, "1");
         saveMeasurement(measurement2, "2");
+
     }
 
 
