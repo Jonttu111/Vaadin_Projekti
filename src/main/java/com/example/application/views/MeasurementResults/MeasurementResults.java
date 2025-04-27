@@ -4,6 +4,7 @@ import com.example.application.entitys.Measurement;
 import com.example.application.entitys.User;
 import com.example.application.security.AuthenticatedUser;
 import com.example.application.service.MeasurementService;
+import com.example.application.views.Dialogs.MeasurementEditDialog;
 import com.example.application.views.MainLayout;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.datepicker.DatePicker;
@@ -61,6 +62,8 @@ public class MeasurementResults extends Div {
                     btn_Edit.addClickListener(event -> {
                         // Placeholder action: We will implement functionality later
                         System.out.println("Edit button clicked for Measurement ID: " + measurement.getID());
+                        MeasurementEditDialog editDialog = new MeasurementEditDialog(measurement, dataProvider, measurementService);
+                        editDialog.open();
                     });
 
                     btn_Delete.addClickListener(event -> {
@@ -75,7 +78,6 @@ public class MeasurementResults extends Div {
                     });
                        return new HorizontalLayout(btn_Edit, btn_Delete);
                 });
-        add(grid);
 
         TextField filterField = new TextField("Search by date");
         filterField.setPlaceholder("dd.mm.yyyy hh:mm:ss");
@@ -93,7 +95,7 @@ public class MeasurementResults extends Div {
             }
         });
 
-        add(filterField);
+        add(grid, filterField);
     }
 
 }

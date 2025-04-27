@@ -35,7 +35,6 @@ public class MeasurementService {
 
         saveMeasurement(measurement, "1");
         saveMeasurement(measurement2, "2");
-
     }
 
     public Measurement saveMeasurement(Measurement measurement, String username){
@@ -45,10 +44,6 @@ public class MeasurementService {
         user.getMeasurements().add(measurement);
         measurementRepository.save(measurement);
         return measurement;
-    }
-
-    public List<Measurement> getAllMeasurements(){
-        return measurementRepository.findAll();
     }
 
     public List<Measurement> getMeasurementsByUsername(String username){
@@ -61,6 +56,10 @@ public class MeasurementService {
         measurementRepository.deleteById(id);
         System.out.println("Measurement deleted");
         return true;
+    }
+
+    public void updateMeasurement(Measurement measurement){
+        measurementRepository.save(measurement);
     }
 
 }

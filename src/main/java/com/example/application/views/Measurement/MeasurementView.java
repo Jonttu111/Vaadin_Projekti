@@ -4,7 +4,6 @@ import com.example.application.entitys.User;
 import com.example.application.security.AuthenticatedUser;
 import com.example.application.service.MeasurementService;
 import com.example.application.views.MainLayout;
-import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.notification.Notification;
@@ -16,9 +15,9 @@ import com.vaadin.flow.router.Menu;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import jakarta.annotation.security.RolesAllowed;
-import org.springframework.context.annotation.Role;
 import org.vaadin.lineawesome.LineAwesomeIconUrl;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 
@@ -37,9 +36,6 @@ public class MeasurementView extends Div {
 
         VerticalLayout layout = new VerticalLayout();
         layout.setAlignItems(FlexComponent.Alignment.CENTER);
-
-
-
 
         IntegerField ifSystolicPressure = new IntegerField("Systolic Pressure");
         IntegerField ifDiastolicPressure = new IntegerField("Diastolic Pressure");
