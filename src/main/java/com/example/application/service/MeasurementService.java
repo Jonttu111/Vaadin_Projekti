@@ -38,7 +38,6 @@ public class MeasurementService {
 
     }
 
-
     public Measurement saveMeasurement(Measurement measurement, String username){
         User user = userService.findByUsername(username).orElseThrow(() -> new IllegalStateException("User not found"));
         measurement.setTimestamp(LocalDateTime.now());
@@ -56,6 +55,12 @@ public class MeasurementService {
         User user = userService.findByUsername(username).orElseThrow(() -> new IllegalStateException("User not found"));
 
         return user.getMeasurements();
+    }
+
+    public Boolean deleteMeasurement (int id){
+        measurementRepository.deleteById(id);
+        System.out.println("Measurement deleted");
+        return true;
     }
 
 }

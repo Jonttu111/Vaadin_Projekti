@@ -65,6 +65,13 @@ public class MeasurementResults extends Div {
 
                     btn_Delete.addClickListener(event -> {
                         System.out.println("Delete button clicked for Measurement ID: " + measurement.getID());
+                        boolean deleteTrue = measurementService.deleteMeasurement(measurement.getID());
+
+                        if(deleteTrue){
+                            dataProvider.getItems().remove(measurement);
+                            dataProvider.refreshAll();
+                        }
+
                     });
                        return new HorizontalLayout(btn_Edit, btn_Delete);
                 });
